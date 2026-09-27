@@ -12,7 +12,8 @@ data = pd.read_csv(dataFile)
 
 # excess kurtosis (normal distribution = 0), missing values skipped: first for all rows
 # together, then for every class separately, so 48 features x (1 + 3) columns
-kurtosis = data.groupby("class").kurt().T
+kurtosis = pd.DataFrame({name: part.drop(columns="class").kurt()
+                         for name, part in data.groupby("class")})
 kurtosis.insert(0, "All classes", data.drop(columns="class").kurt())
 print("Kurtosis for all classes and by class")
 print(kurtosis.to_string(float_format="{:.4f}".format))
