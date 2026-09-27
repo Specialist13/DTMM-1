@@ -24,14 +24,14 @@ print(f"Largest IQR:  {largest} = {iqr.loc[largest, 'IQR']:.4e} "
 # how many times every IQR is larger than the smallest one, the ratios go up to ~10^6
 # so a log scale is needed, otherwise all but the largest features lie flat on zero
 ratio = (iqr["IQR"] / iqr.loc[smallest, "IQR"]).sort_values()
-figure, axis = plt.subplots(figsize=(12, 4.5))
-axis.plot(ratio.index, ratio, color="#4a78b5", linewidth=2, marker="o", markersize=5)
+figure, axis = plt.subplots(figsize=(8, 5.5))
+axis.plot(ratio.index, ratio, color="#4a78b5", linewidth=1.5, marker="o", markersize=4)
 axis.set_yscale("log")
 for feature in (smallest, largest):
     axis.annotate(f"{feature}: {ratio[feature]:,.0f}".replace(",", " "), (feature, ratio[feature]),
                   xytext=(0, 8), textcoords="offset points", ha="center", fontsize=9)
 axis.set(xlabel="Požymis", ylabel=f"IQR / IQR({smallest}) (log skalė)")
-axis.tick_params(axis="x", labelrotation=90, labelsize=8)
+axis.tick_params(axis="x", labelrotation=90, labelsize=7)
 axis.grid(axis="y", alpha=0.3)
 axis.spines[["top", "right"]].set_visible(False)
 figure.tight_layout()

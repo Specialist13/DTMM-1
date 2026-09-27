@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 
@@ -14,8 +15,10 @@ correlation = data.corr(method="pearson").abs()
 
 figure, axis = plt.subplots(figsize=(14, 12))
 colormap = plt.get_cmap("Reds").copy()
-colormap.set_bad("#eeeeee")
-image = axis.imshow(correlation, cmap=colormap, vmin=0, vmax=1, aspect="auto")
+colormap.set_bad("white")
+upperTriangle = np.triu(np.ones(correlation.shape, dtype=bool), k=1)
+matrix = np.ma.array(correlation.to_numpy(), mask=upperTriangle)
+image = axis.imshow(matrix, cmap=colormap, vmin=0, vmax=1, aspect="auto")
 positions = range(len(correlation.columns))
 axis.set_xticks(positions, labels=correlation.columns, rotation=90)
 axis.set_yticks(positions, labels=correlation.index)
